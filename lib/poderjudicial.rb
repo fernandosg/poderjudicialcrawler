@@ -12,7 +12,7 @@ module Poderjudicial
       @agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       @user_email = args[:email] || args["email"]
       @password = args[:password] || args["password"]
-      @url_individual_search = args[:individual_search] || args["individual_search"] #"https://www.poderjudicialvirtual.com/buscar-nuevos-expedientes"
+      @url_individual_search = (args[:individual_search] || args["individual_search"]) || "https://www.poderjudicialvirtual.com/buscar-nuevos-expedientes"
     end
 
     def get_from_url url
@@ -35,6 +35,7 @@ module Poderjudicial
     end
 
     def get_demands_from_user name
+      raise StandardError.new "Debes definir una url para la búsqueda de demandas por nombre" if @url_individual_search.blank?
       doc = get_dynamic_html @url_individual_search, name
       name = I18n.transliterate(name)
       demands = []
