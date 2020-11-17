@@ -59,9 +59,11 @@ Retorna un arreglo con los diferentes números de demandas
 ## Dependencias
 Para el correcto uso de esta gema se requiere tener las siguientes gemas definidas:
 
-watir
-webdrivers
-selenium-webdriver
+1) watir
+
+2) webdrivers
+
+3) selenium-webdriver
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
