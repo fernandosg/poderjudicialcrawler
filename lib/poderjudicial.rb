@@ -15,7 +15,8 @@ module Poderjudicial
       @url_individual_search = (args[:individual_search] || args["individual_search"]) || "https://www.poderjudicialvirtual.com/buscar-nuevos-expedientes"
     end
 
-    def get_from_url url
+    def get_from_url url = ""
+      raise StandardError.new "Debes de definir una url valida" if url.blank?
       data = {
         actor: "",
         demandado: "",
@@ -24,14 +25,19 @@ module Poderjudicial
         resumen: "",
         juzgado: ""
       }
-       web = @agent.get(url)
-       data[:actor] = get_actor_content web
-       data[:demandado] = get_demandado_content web
-       data[:expediente] = get_expediente_content web
-       data[:notificaciones] = get_notificaciones_content web
-       data[:resumen] = get_resumen_content web
-       data[:juzgado] = get_juzgado_content web
-       return data
+       begin
+         web = @agent.get(url)
+         data[:actor] = get_actor_content web
+         data[:demandado] = get_demandado_content web
+         data[:expediente] = get_expediente_content web
+         data[:notificaciones] = get_notificaciones_content web
+         data[:resumen] = get_resumen_content web
+         data[:juzgado] = get_juzgado_content web
+         return data
+      rescue StandardError => e
+        puts "Hubo un error al intentar obtener información de la url #{e.message}"
+        return data
+      end
     end
 
     def get_demands_from_user name
